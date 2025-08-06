@@ -389,10 +389,14 @@ def get_risk_level(metric: float, metric_type: str) -> str:
 
 def download_plot_as_png(fig: go.Figure, filename: str) -> str:
     """Convert plotly figure to downloadable PNG."""
-    img_bytes = fig.to_image(format="png", width=800, height=600)
-    b64 = base64.b64encode(img_bytes).decode()
-    href = f'<a href="data:image/png;base64,{b64}" download="{filename}.png">Download {filename}</a>'
-    return href
+    try:
+        img_bytes = fig.to_image(format="png", width=800, height=600)
+        b64 = base64.b64encode(img_bytes).decode()
+        href = f'<a href="data:image/png;base64,{b64}" download="{filename}.png">Download {filename}</a>'
+        return href
+    except Exception as e:
+        # If Chrome/Kaleido is not available, return a message instead
+        return f'<small>💡 Download not available in cloud environment. Use browser screenshot for saving plots.</small>'
 
 
 def main():
@@ -592,7 +596,7 @@ def main():
         1. **Configure Parameters**: Use the sidebar to set your simulation parameters
         2. **Run Simulation**: Click "Run Simulation" to start the federated learning process
         3. **Analyze Results**: Review the risk assessment metrics and visualizations
-        4. **Download Plots**: Use the download links to save charts for presentations
+        4. **Save Plots**: Use browser screenshot or download links (if available) to save charts for presentations
         5. **Experiment**: Try different parameters to explore privacy-utility trade-offs
         
         ### 📊 Understanding the Metrics
@@ -601,6 +605,11 @@ def main():
         - **Fairness Disparity**: Measures bias across clients (higher = more bias)
         - **Gradient Norms**: Indicates information leakage risk (higher = more risk)
         - **Differential Privacy Noise**: Balances privacy protection with model utility
+        
+        ### 💡 Note on Downloads
+        - Download functionality may not be available in cloud environments
+        - Use browser screenshot (Cmd/Ctrl + Shift + 4) to save plots for presentations
+        - All visualizations are interactive and can be zoomed/explored
         """)
     
     # Footer
