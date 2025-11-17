@@ -52,11 +52,11 @@ A comprehensive, interactive web application for simulating federated learning s
 Compares performance between traditional centralized learning and privacy-preserving federated approaches.
 
 **Mathematical Formulation:**
-- **Centralized Accuracy**: \( A_{central} = \frac{1}{n_{test}} \sum_{i=1}^{n_{test}} \mathbb{1}[\hat{y}_i = y_i] \)
-- **Federated Accuracy**: \( A_{fed} = \frac{1}{n_{test}} \sum_{i=1}^{n_{test}} \mathbb{1}[\hat{y}_i^{fed} = y_i] \)
-- **Accuracy Gap**: \( \Delta A = A_{central} - A_{fed} \)
+- **Centralized Accuracy**: $A_{central} = \frac{1}{n_{test}} \sum_{i=1}^{n_{test}} \mathbb{1}[\hat{y}_i = y_i]$
+- **Federated Accuracy**: $A_{fed} = \frac{1}{n_{test}} \sum_{i=1}^{n_{test}} \mathbb{1}[\hat{y}_i^{fed} = y_i]$
+- **Accuracy Gap**: $\Delta A = A_{central} - A_{fed}$
 
-Where \( \hat{y}_i \) is the predicted label and \( y_i \) is the true label.
+Where $\hat{y}_i$ is the predicted label and $y_i$ is the true label.
 
 **Scientific Rationale**: The accuracy gap quantifies the utility cost of privacy-preserving federated learning. Larger gaps indicate significant performance degradation, which may be unacceptable for certain applications (McMahan et al., 2017).
 
@@ -65,11 +65,12 @@ Where \( \hat{y}_i \) is the predicted label and \( y_i \) is the true label.
 Measures bias across clients by computing the difference between maximum and minimum client accuracies.
 
 **Mathematical Formulation:**
-\[
-D_{fairness} = \max_{k \in [K]} A_k - \min_{k \in [K]} A_k
-\]
 
-Where \( A_k \) is the accuracy of client \( k \) and \( K \) is the total number of clients.
+$$
+D_{fairness} = \max_{k \in [K]} A_k - \min_{k \in [K]} A_k
+$$
+
+Where $A_k$ is the accuracy of client $k$ and $K$ is the total number of clients.
 
 **Scientific Rationale**: This metric captures inter-client performance disparity, a key indicator of algorithmic fairness. High disparity suggests the model benefits some clients disproportionately, violating fairness principles (Mitchell et al., 2021). Values > 0.2 indicate high risk, 0.1-0.2 medium risk, and < 0.1 low risk.
 
@@ -78,31 +79,34 @@ Where \( A_k \) is the accuracy of client \( k \) and \( K \) is the total numbe
 L2 norm of client gradients, serving as a proxy for information leakage risk.
 
 **Mathematical Formulation:**
-\[
-\|\nabla_k\|_2 = \sqrt{\sum_{j=1}^{d} \left( \frac{\partial \mathcal{L}}{\partial w_j} \right)^2}
-\]
 
-Where \( \nabla_k \) is the gradient vector for client \( k \), \( d \) is the model dimension, and \( \mathcal{L} \) is the loss function.
+$$
+\|\nabla_k\|_2 = \sqrt{\sum_{j=1}^{d} \left( \frac{\partial \mathcal{L}}{\partial w_j} \right)^2}
+$$
+
+Where $\nabla_k$ is the gradient vector for client $k$, $d$ is the model dimension, and $\mathcal{L}$ is the loss function.
 
 **Scientific Rationale**: Larger gradient magnitudes contain more information about local data, increasing the risk of privacy leakage through gradient inversion attacks (Abadi et al., 2016). The mean gradient norm across rounds provides an aggregate privacy risk measure.
 
 #### 4. **Differential Privacy Noise**
 
-Gaussian noise added to gradients for privacy protection, parameterized by standard deviation \( \sigma \).
+Gaussian noise added to gradients for privacy protection, parameterized by standard deviation $\sigma$.
 
 **Mathematical Formulation:**
-\[
-\tilde{\nabla}_k = \nabla_k + \mathcal{N}(0, \sigma^2 I)
-\]
 
-Where \( \tilde{\nabla}_k \) is the noisy gradient and \( \mathcal{N}(0, \sigma^2 I) \) is multivariate Gaussian noise.
+$$
+\tilde{\nabla}_k = \nabla_k + \mathcal{N}(0, \sigma^2 I)
+$$
+
+Where $\tilde{\nabla}_k$ is the noisy gradient and $\mathcal{N}(0, \sigma^2 I)$ is multivariate Gaussian noise.
 
 **Privacy Loss (ε) Approximation:**
-\[
-\varepsilon \approx \frac{1}{2\sigma^2}
-\]
 
-**Scientific Rationale**: Differential privacy provides formal privacy guarantees. Higher \( \sigma \) increases privacy (lower \( \varepsilon \)) but typically reduces model utility. The privacy-utility trade-off is fundamental in federated learning (Dwork & Roth, 2014).
+$$
+\varepsilon \approx \frac{1}{2\sigma^2}
+$$
+
+**Scientific Rationale**: Differential privacy provides formal privacy guarantees. Higher $\sigma$ increases privacy (lower $\varepsilon$) but typically reduces model utility. The privacy-utility trade-off is fundamental in federated learning (Dwork & Roth, 2014).
 
 ### Advanced Metrics
 
@@ -111,11 +115,12 @@ Where \( \tilde{\nabla}_k \) is the noisy gradient and \( \mathcal{N}(0, \sigma^
 Measures the average absolute difference between federated and centralized accuracies across rounds.
 
 **Mathematical Formulation:**
-\[
-\text{MAE} = \frac{1}{T} \sum_{t=1}^{T} |A_{central} - A_{fed}^{(t)}|
-\]
 
-Where \( T \) is the number of federated rounds and \( A_{fed}^{(t)} \) is federated accuracy at round \( t \).
+$$
+\text{MAE} = \frac{1}{T} \sum_{t=1}^{T} |A_{central} - A_{fed}^{(t)}|
+$$
+
+Where $T$ is the number of federated rounds and $A_{fed}^{(t)}$ is federated accuracy at round $t$.
 
 **Scientific Rationale**: MAE quantifies the persistent deviation from centralized performance, helping identify convergence issues or systematic biases in federated optimization.
 
@@ -124,11 +129,12 @@ Where \( T \) is the number of federated rounds and \( A_{fed}^{(t)} \) is feder
 Measures inequality in client accuracy distribution, adapted from economics.
 
 **Mathematical Formulation:**
-\[
-G = \frac{n + 1 - 2 \sum_{i=1}^{n} \frac{(n+1-i) \cdot A_{(i)}}{\sum_{j=1}^{n} A_j}}{n}
-\]
 
-Where \( A_{(i)} \) are sorted client accuracies in ascending order and \( n \) is the number of clients.
+$$
+G = \frac{n + 1 - 2 \sum_{i=1}^{n} \frac{(n+1-i) \cdot A_{(i)}}{\sum_{j=1}^{n} A_j}}{n}
+$$
+
+Where $A_{(i)}$ are sorted client accuracies in ascending order and $n$ is the number of clients.
 
 **Scientific Rationale**: The Gini coefficient (0 = perfect equality, 1 = maximum inequality) quantifies representational inequality across clients. Higher values indicate that some clients benefit significantly more than others, raising fairness concerns.
 
@@ -137,14 +143,15 @@ Where \( A_{(i)} \) are sorted client accuracies in ascending order and \( n \) 
 Approximate differential privacy parameter indicating privacy guarantee strength.
 
 **Mathematical Formulation:**
-\[
+
+$$
 \varepsilon = \begin{cases}
 \frac{1}{2\sigma^2} & \text{if } \sigma > 0 \\
 \infty & \text{if } \sigma = 0
 \end{cases}
-\]
+$$
 
-**Scientific Rationale**: Lower \( \varepsilon \) values indicate stronger privacy guarantees. Typically, \( \varepsilon < 1 \) is considered strong privacy, \( 1 \leq \varepsilon \leq 10 \) moderate, and \( \varepsilon > 10 \) weak. This approximation assumes Gaussian mechanism with unit sensitivity.
+**Scientific Rationale**: Lower $\varepsilon$ values indicate stronger privacy guarantees. Typically, $\varepsilon < 1$ is considered strong privacy, $1 \leq \varepsilon \leq 10$ moderate, and $\varepsilon > 10$ weak. This approximation assumes Gaussian mechanism with unit sensitivity.
 
 ### Risk Levels
 
@@ -190,8 +197,8 @@ Approximate differential privacy parameter indicating privacy guarantee strength
 
 **Features**:
 - Federated accuracy trajectory with markers
-- 95% confidence intervals using normal approximation: \( \text{CI} = A \pm 1.96 \cdot \sqrt{\frac{A(1-A)}{n_{test}}} \)
-- Linear trend line (polyfit) showing convergence rate: \( A(t) = \alpha t + \beta \)
+- 95% confidence intervals using normal approximation: $\text{CI} = A \pm 1.96 \cdot \sqrt{\frac{A(1-A)}{n_{test}}}$
+- Linear trend line (polyfit) showing convergence rate: $A(t) = \alpha t + \beta$
 - Centralized baseline for comparison
 - Convergence rate annotation (slope coefficient)
 
@@ -233,7 +240,7 @@ Approximate differential privacy parameter indicating privacy guarantee strength
 **Description**: Animated visualization showing fairness disparity evolution with per-round client accuracy distributions.
 
 **Features**:
-- Disparity line (max - min accuracy): \( D(t) = \max_k A_k(t) - \min_k A_k(t) \)
+- Disparity line (max - min accuracy): $D(t) = \max_k A_k(t) - \min_k A_k(t)$
 - Linear trend analysis
 - Animated violin plots showing per-round client accuracy distributions
 - Play/pause controls and round slider
@@ -257,7 +264,7 @@ Approximate differential privacy parameter indicating privacy guarantee strength
 
 **Features**:
 - Box plots per round (quartiles, outliers)
-- Mean gradient norm trend line: \( \bar{\|\nabla\|}(t) = \frac{1}{K} \sum_{k=1}^{K} \|\nabla_k^{(t)}\|_2 \)
+- Mean gradient norm trend line: $\bar{\|\nabla\|}(t) = \frac{1}{K} \sum_{k=1}^{K} \|\nabla_k^{(t)}\|_2$
 - Standard deviation visualization through box plot spread
 
 **Scientific Value**:
@@ -288,11 +295,12 @@ Approximate differential privacy parameter indicating privacy guarantee strength
 - Essential for policy decisions on privacy budgets
 
 **Mathematical Relationship**:
-\[
-A(\sigma) \approx A(0) \cdot \exp\left(-\frac{\sigma^2}{2\tau^2}\right)
-\]
 
-Where \( \tau \) is a problem-dependent sensitivity parameter.
+$$
+A(\sigma) \approx A(0) \cdot \exp\left(-\frac{\sigma^2}{2\tau^2}\right)
+$$
+
+Where $\tau$ is a problem-dependent sensitivity parameter.
 
 **Interpretation**:
 - Steep accuracy decline: High sensitivity to noise
@@ -329,10 +337,10 @@ Where \( \tau \) is a problem-dependent sensitivity parameter.
 
 **Features**:
 - Four normalized axes (0-1 scale):
-  - **Accuracy**: \( A_{fed} \) (direct)
-  - **Fairness**: \( 1 - \min(D_{fairness}, 1) \) (inverted, higher is better)
-  - **Gradient Norm**: \( 1 - \frac{\|\nabla\|_{mean}}{\|\nabla\|_{max}} \) (inverted, higher is better)
-  - **Privacy Noise**: \( \frac{\sigma}{0.5} \) (direct, higher is better)
+  - **Accuracy**: $A_{fed}$ (direct)
+  - **Fairness**: $1 - \min(D_{fairness}, 1)$ (inverted, higher is better)
+  - **Gradient Norm**: $1 - \frac{\|\nabla\|_{mean}}{\|\nabla\|_{max}}$ (inverted, higher is better)
+  - **Privacy Noise**: $\frac{\sigma}{0.5}$ (direct, higher is better)
 - Baseline (centralized) vs. Current (federated) comparison
 - Filled polygons for visual comparison
 
@@ -355,40 +363,43 @@ Where \( \tau \) is a problem-dependent sensitivity parameter.
 The simulator implements FedAvg, the canonical federated learning algorithm (McMahan et al., 2017).
 
 **Algorithm**:
-1. Initialize global model: \( w^{(0)} = \mathbf{0} \)
-2. For each round \( t = 1, \ldots, T \):
-   - For each client \( k = 1, \ldots, K \):
-     - Compute local gradient: \( \nabla_k^{(t)} = \nabla \mathcal{L}(w^{(t-1)}, \mathcal{D}_k) \)
-     - Add DP noise: \( \tilde{\nabla}_k^{(t)} = \nabla_k^{(t)} + \mathcal{N}(0, \sigma^2 I) \)
-   - Aggregate gradients: \( \bar{\nabla}^{(t)} = \frac{1}{K} \sum_{k=1}^{K} \tilde{\nabla}_k^{(t)} \)
-   - Update global model: \( w^{(t)} = w^{(t-1)} - \eta \bar{\nabla}^{(t)} \)
+1. Initialize global model: $w^{(0)} = \mathbf{0}$
+2. For each round $t = 1, \ldots, T$:
+   - For each client $k = 1, \ldots, K$:
+     - Compute local gradient: $\nabla_k^{(t)} = \nabla \mathcal{L}(w^{(t-1)}, \mathcal{D}_k)$
+     - Add DP noise: $\tilde{\nabla}_k^{(t)} = \nabla_k^{(t)} + \mathcal{N}(0, \sigma^2 I)$
+   - Aggregate gradients: $\bar{\nabla}^{(t)} = \frac{1}{K} \sum_{k=1}^{K} \tilde{\nabla}_k^{(t)}$
+   - Update global model: $w^{(t)} = w^{(t-1)} - \eta \bar{\nabla}^{(t)}$
 
 Where:
-- \( w^{(t)} \): Global model at round \( t \)
-- \( \mathcal{D}_k \): Local dataset of client \( k \)
-- \( \eta \): Learning rate
-- \( \sigma \): DP noise standard deviation
+- $w^{(t)}$: Global model at round $t$
+- $\mathcal{D}_k$: Local dataset of client $k$
+- $\eta$: Learning rate
+- $\sigma$: DP noise standard deviation
 
 ### Model: Logistic Regression
 
 Binary classification using logistic regression with sigmoid activation.
 
 **Prediction Function**:
-\[
+
+$$
 P(y=1 | \mathbf{x}) = \sigma(\mathbf{w}^T \mathbf{x} + b) = \frac{1}{1 + \exp(-(\mathbf{w}^T \mathbf{x} + b))}
-\]
+$$
 
 **Loss Function** (Binary Cross-Entropy):
-\[
+
+$$
 \mathcal{L}(\mathbf{w}, b) = -\frac{1}{n} \sum_{i=1}^{n} [y_i \log(\hat{y}_i) + (1-y_i) \log(1-\hat{y}_i)]
-\]
+$$
 
 **Gradient**:
-\[
-\nabla_{\mathbf{w}} \mathcal{L} = \frac{1}{n} \mathbf{X}^T (\hat{\mathbf{y}} - \mathbf{y})
-\]
 
-Where \( \hat{\mathbf{y}} = \sigma(\mathbf{X}\mathbf{w} + b) \) is the predicted probability vector.
+$$
+\nabla_{\mathbf{w}} \mathcal{L} = \frac{1}{n} \mathbf{X}^T (\hat{\mathbf{y}} - \mathbf{y})
+$$
+
+Where $\hat{\mathbf{y}} = \sigma(\mathbf{X}\mathbf{w} + b)$ is the predicted probability vector.
 
 ## 🎯 Example Workflow
 
@@ -419,22 +430,22 @@ Where \( \hat{\mathbf{y}} = \sigma(\mathbf{X}\mathbf{w} + b) \) is the predicted
 
 Synthetic data generation for reproducible experiments:
 
-\[
+$$
 \mathbf{x}_i \sim \mathcal{N}(\mathbf{0}, I), \quad y_i = \mathbb{1}[\sigma(\mathbf{w}^* \mathbf{x}_i + b^*) > 0.5]
-\]
+$$
 
-Where \( \mathbf{w}^*, b^* \) are randomly generated true parameters.
+Where $\mathbf{w}^*, b^*$ are randomly generated true parameters.
 
 ### Risk Metrics Summary
 
 | Metric | Formula | Interpretation |
 |--------|---------|----------------|
-| **Accuracy Gap** | \( \Delta A = A_{central} - A_{fed} \) | Utility cost of federation |
-| **Fairness Disparity** | \( D = \max_k A_k - \min_k A_k \) | Inter-client bias measure |
-| **Gradient Norm** | \( \|\nabla_k\|_2 \) | Privacy leakage proxy |
-| **MAE** | \( \frac{1}{T}\sum_t \|A_{central} - A_{fed}^{(t)}\| \) | Persistent deviation |
-| **Gini Coefficient** | \( G = \frac{n+1-2\sum_i \frac{(n+1-i)A_{(i)}}{\sum_j A_j}}{n} \) | Inequality measure |
-| **Privacy Loss** | \( \varepsilon \approx \frac{1}{2\sigma^2} \) | DP guarantee strength |
+| **Accuracy Gap** | $\Delta A = A_{central} - A_{fed}$ | Utility cost of federation |
+| **Fairness Disparity** | $D = \max_k A_k - \min_k A_k$ | Inter-client bias measure |
+| **Gradient Norm** | $\|\nabla_k\|_2$ | Privacy leakage proxy |
+| **MAE** | $\frac{1}{T}\sum_t \|A_{central} - A_{fed}^{(t)}\|$ | Persistent deviation |
+| **Gini Coefficient** | $G = \frac{n+1-2\sum_i \frac{(n+1-i)A_{(i)}}{\sum_j A_j}}{n}$ | Inequality measure |
+| **Privacy Loss** | $\varepsilon \approx \frac{1}{2\sigma^2}$ | DP guarantee strength |
 
 ## 🚨 Troubleshooting
 
@@ -513,6 +524,6 @@ This project is developed for educational and research purposes as part of the A
 
 ---
 
-**Built for AffectLog 360° Demo** 🤖 | Explore the trade-offs between privacy, fairness, and utility in decentralized AI systems
+**Built for AffectLog 360° Demo** 🤖 | Explore the trade-offs between privacy, fairness, and utility in decentralized AI systems 
 
 **Part of the Council of Europe – Ministry of Slovenia Hands-On Risk & Rights Lab**
