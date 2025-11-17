@@ -32,11 +32,22 @@ from typing import List, Tuple, Dict, Any
 import time
 
 
-# Page configuration - using professional analytics icon
-# For custom icon, place favicon.png in assets/ folder and use: page_icon="assets/favicon.png"
+def _get_page_icon() -> str:
+    """Get page icon - prefers custom PNG, falls back to aesthetic Unicode symbol."""
+    import os
+    custom_icon_path = os.path.join(os.path.dirname(__file__), "assets", "favicon.png")
+    if os.path.exists(custom_icon_path):
+        return custom_icon_path
+    # Fallback to aesthetic hexagon symbol (represents network structure)
+    return "⬡"
+
+
+# Page configuration - using aesthetic hexagonal network icon
+# Custom SVG icon available in assets/favicon.svg (convert to PNG for best results)
+page_icon = _get_page_icon()
 st.set_page_config(
     page_title="Federated AI Risk Simulator",
-    page_icon="📊",  # Professional bar chart icon representing analytics and data science
+    page_icon=page_icon,  # Hexagon symbol or custom PNG - represents network structure and federation
     layout="wide",
     initial_sidebar_state="expanded"
 )
