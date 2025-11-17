@@ -524,6 +524,6 @@ This project is developed for educational and research purposes as part of the A
 
 ---
 
-**Built for AffectLog 360° Demo** 🤖 | Explore the trade-offs between privacy, fairness, and utility in decentralized AI systems 
+**Built for AffectLog 360° Demo** | Explore the trade-offs between privacy, fairness, and utility in decentralized AI systems 
 
 **Part of the Council of Europe – Ministry of Slovenia Hands-On Risk & Rights Lab**

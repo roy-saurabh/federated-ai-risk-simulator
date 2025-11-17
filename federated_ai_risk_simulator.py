@@ -32,10 +32,11 @@ from typing import List, Tuple, Dict, Any
 import time
 
 
-# Page configuration
+# Page configuration - using professional analytics icon
+# For custom icon, place favicon.png in assets/ folder and use: page_icon="assets/favicon.png"
 st.set_page_config(
     page_title="Federated AI Risk Simulator",
-    page_icon="🤖",
+    page_icon="📊",  # Professional bar chart icon representing analytics and data science
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -941,7 +942,7 @@ def main():
     </div>
     """, unsafe_allow_html=True)
     # Header
-    st.markdown('<h1 class="main-header">🤖 Federated AI Risk Simulator</h1>', unsafe_allow_html=True)
+    st.markdown('<h1 class="main-header">Federated AI Risk Simulator</h1>', unsafe_allow_html=True)
     
     # Sidebar configuration
     st.sidebar.header("🎛️ Simulation Parameters")
@@ -1274,7 +1275,7 @@ def main():
     st.markdown("---")
     st.markdown("""
     <div style='text-align: center; color: #666;'>
-        <p>🤖 Federated AI Risk Simulator | Built for AffectLog 360° Demo</p>
+        <p><strong>Federated AI Risk Simulator</strong> | Built for AffectLog 360° Demo</p>
         <p>Explore the trade-offs between privacy, fairness, and utility in decentralized AI systems</p>
         <p>Part of the Council of Europe – Ministry of Slovenia Hands-On Risk & Rights Lab</p>
     </div>
