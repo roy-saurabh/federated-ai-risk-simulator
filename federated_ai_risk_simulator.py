@@ -959,7 +959,7 @@ def main():
     st.sidebar.header("🎛️ Simulation Parameters")
     # Sidebar branding + uploader
     if logo_uri:
-        st.sidebar.image(logo_uri, caption="AffectLog 360°", use_container_width=True)
+        st.sidebar.image(logo_uri, caption="AffectLog 360°")
     uploaded = st.sidebar.file_uploader("Optional: Upload AffectLog logo (PNG)", type=["png"], accept_multiple_files=False)
     if uploaded is not None:
         st.session_state.affectlog_logo_bytes = uploaded.read()
