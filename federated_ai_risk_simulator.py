@@ -960,14 +960,22 @@ def main():
     # Sidebar branding + uploader
     if logo_uri:
         st.sidebar.image(logo_uri, caption="AffectLog 360°")
-    uploaded = st.sidebar.file_uploader("Optional: Upload AffectLog logo (PNG)", type=["png"], accept_multiple_files=False)
+    uploaded = st.sidebar.file_uploader("Optional: Upload AffectLog logo (PNG)", type=["png"], accept_multiple_files=False, key="logo_uploader")
     if uploaded is not None:
-        st.session_state.affectlog_logo_bytes = uploaded.read()
-        try:
-            st.rerun()
-        except Exception:
-            # Fallback for older Streamlit versions
-            pass
+        # Create a unique identifier for this upload to prevent infinite rerun loop
+        import hashlib
+        file_content = uploaded.read()
+        file_hash = hashlib.md5(file_content).hexdigest()
+        
+        # Only update and rerun if this is a new/different file
+        if 'last_logo_hash' not in st.session_state or st.session_state.last_logo_hash != file_hash:
+            st.session_state.affectlog_logo_bytes = file_content
+            st.session_state.last_logo_hash = file_hash
+            # Rerun once to display the new logo
+            try:
+                st.rerun()
+            except Exception:
+                pass
     st.sidebar.markdown(
         '<a href="https://app.affectlog.com" target="_blank">app.affectlog.com</a>',
         unsafe_allow_html=True
